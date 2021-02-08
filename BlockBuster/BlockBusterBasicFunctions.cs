@@ -11,7 +11,7 @@ namespace BlockBuster
     {
         public static Movie GetMovieById(int id)
         {
-            using(var db = new SE407_blockBusterContext())
+            using (var db = new SE407_blockBusterContext())
             {
                 return db.Movies.Find(id);
             }
@@ -19,29 +19,13 @@ namespace BlockBuster
 
         public static List<Movie> GetAllMovies()
         {
-            using(var db = new SE407_blockBusterContext())
+            using (var db = new SE407_blockBusterContext())
             {
                 return db.Movies.ToList();
             }
         }
-        
-        public static List<Director> GetDirectorsLast()
-        {
-            using (var db = new SE407_blockBusterContext())
-            {
-                Director.Select(m => m.LastName).Where(m => m == "LastName");
-                return db.Directors.ToList();
-            }
-        }
 
-        public static List<Genre> GetGenres()
-        {
-            using (var db = new SE407_blockBusterContext())
-            {
-                Genre.Select(m => m.GenreDescr).Where(m => m == "GenreDescr");
-                return db.Genre.ToList();
-            }
-        }
+
         public static List<Movie> GetAllCheckedOutMovies()
         {
             using (var db = new SE407_blockBusterContext())
@@ -72,12 +56,52 @@ namespace BlockBuster
 
             }
         }
-     
-        
 
+        public static List<Movie> GetGenreDescr()
+        {
+            using (var db = new SE407_blockBusterContext())
+            {
+                return db.Genre
+                    .Join(db.Movies,
+                    g => g.GenreId,
+                    m => m.Genre.GenreId,
+                    (g, m) => new
+                    {
+                        GenreId = m.GenreId,
+                        GenreDescr = g.GenreDescr
 
+                    }).Where(e => e.GenreDescr == "D")
+                    .Select(m => new Movie
+                    {
+                        GenreId = m.GenreId,
+                        
+                    }).ToList();
 
+            }
+        }
 
+        public static List<Movie> GetByDirectorsLast()
+        {
+            using (var db = new SE407_blockBusterContext())
+            {
+                return db.Directors
+                    .Join(db.Movies,
+                    d => d.DirectorId,
+                    m => m.Director.DirectorId,
+                    (m, d) => new
+                    {
+                        DirectorId = d.DirectorId,
+                        LastName = m.LastName
+
+                    }).Where(l => l.LastName == "L")
+                    .Select(m => new Movie
+                    {
+                        DirectorId = m.DirectorId
+
+                    }).ToList();
+
+            }
+        }
 
 
     }

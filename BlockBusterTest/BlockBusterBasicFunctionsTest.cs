@@ -30,17 +30,19 @@ namespace BlockBusterTest
             var result = BlockBusterBasicFunctions.GetAllCheckedOutMovies();
             Assert.True(result.Count == 3);
         }
+
         [Fact]
-        public void GetGenres()
+        public void GetGenreDescr()
         {
-            var result = BlockBusterBasicFunctions.GetGenre(11);
-            Assert.True(result.GenreDescr == "Vertigo");
-          
+            var result = BlockBusterBasicFunctions.GetGenreDescr();
+            Assert.True(result.Count == 50);
+
         }
+
         [Fact]
-        public void GetDirectorsLast()
+        public void GetByDirectorsLast()
         {
-            var result = BlockBusterBasicFunctions.GetDirectorsLast();
+            var result = BlockBusterBasicFunctions.GetByDirectorsLast();
             Assert.True(result.Count == 50);
         }
 
