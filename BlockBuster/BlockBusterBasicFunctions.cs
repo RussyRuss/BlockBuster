@@ -57,46 +57,63 @@ namespace BlockBuster
             }
         }
 
-        public static List<Movie> GetGenreDescr()
+        public static List<Movie> GetMoviesByGenreDescr(string genreDescr)
         {
             using (var db = new SE407_blockBusterContext())
             {
-                return db.Genre
-                    .Join(db.Movies,
+                return db.Movies
+                    .Join(db.Genres,
+                    m => m.GenreId,
                     g => g.GenreId,
-                    m => m.Genre.GenreId,
-                    (g, m) => new
+                    (m, g) => new
                     {
+                        MovieId = m.MovieId,
+                        Title = m.Title,
+                        ReleaseYear = m.ReleaseYear,
                         GenreId = m.GenreId,
-                        GenreDescr = g.GenreDescr
+                        DirectorId = m.DirectorId,
+                        genre = g.GenreDescr
 
-                    }).Where(e => e.GenreDescr == "D")
-                    .Select(m => new Movie
+                    }).Where(w => w.genre == genreDescr)
+                    .Select(m =>  new Movie
                     {
+                        MovieId = m.MovieId,
+                        Title = m.Title,
+                        ReleaseYear = m.ReleaseYear,
                         GenreId = m.GenreId,
-                        
+                        DirectorId = m.DirectorId,
+
                     }).ToList();
 
             }
         }
 
-        public static List<Movie> GetByDirectorsLast()
+        public static List<Movie> GetByDirectorsLast(string directorsLast )
         {
             using (var db = new SE407_blockBusterContext())
             {
-                return db.Directors
-                    .Join(db.Movies,
+                return db.Movies
+                    .Join(db.Directors,
+                    m => m.DirectorId,
                     d => d.DirectorId,
-                    m => m.Director.DirectorId,
                     (m, d) => new
                     {
-                        DirectorId = d.DirectorId,
-                        LastName = m.LastName
+                        MovieId = m.MovieId,
+                        Title = m.Title,
+                        ReleaseYear = m.ReleaseYear,
+                        GenreId = m.GenreId,
+                        DirectorId = m.DirectorId,
+                        director = d.LastName
 
-                    }).Where(l => l.LastName == "L")
+
+                    }).Where(w => w.director == directorsLast)
                     .Select(m => new Movie
                     {
-                        DirectorId = m.DirectorId
+                        MovieId = m.MovieId,
+                        Title = m.Title,
+                        ReleaseYear = m.ReleaseYear,
+                        GenreId = m.GenreId,
+                        DirectorId = m.DirectorId,
 
                     }).ToList();
 

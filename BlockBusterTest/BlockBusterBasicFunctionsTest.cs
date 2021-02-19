@@ -32,18 +32,18 @@ namespace BlockBusterTest
         }
 
         [Fact]
-        public void GetGenreDescr()
+        public void GetMoviesByGenreDescr()
         {
-            var result = BlockBusterBasicFunctions.GetGenreDescr();
-            Assert.True(result.Count == 50);
+            var directorlast = BlockBusterBasicFunctions.GetMoviesByGenreDescr("Action");
+            Assert.True(directorlast.Count == 5);
 
         }
 
         [Fact]
         public void GetByDirectorsLast()
         {
-            var result = BlockBusterBasicFunctions.GetByDirectorsLast();
-            Assert.True(result.Count == 50);
+            var result = BlockBusterBasicFunctions.GetByDirectorsLast("Eastwood");
+            Assert.True(result.Count == 28);
         }
 
 
